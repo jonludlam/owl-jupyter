@@ -11,6 +11,9 @@ WORKDIR /home/opam
 COPY ocamlinit .ocamlinit
 COPY download_all.ml download_all.ml
 RUN ./download_all.ml
+RUN git clone https://github.com/owlbarn/owl_jupyter.git
+RUN cd owl_jupyter && dune build && dune install
+RUN ./download_all.ml
 COPY start-singleuser.sh /home/opam/.local/bin/
 CMD ["/home/opam/.local/bin/start-singleuser.sh"]
 
