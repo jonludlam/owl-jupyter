@@ -11,5 +11,6 @@ WORKDIR /home/opam
 COPY ocamlinit .ocamlinit
 COPY download_all.ml download_all.ml
 RUN ./download_all.ml
-CMD ["/home/opam/.local/bin/jupyterhub-singleuser"]
+COPY start-singleuser.sh /home/opam/.local/bin/
+CMD ["/home/opam/.local/bin/start-singleuser.sh"]
 
