@@ -8,10 +8,11 @@ RUN opam install -y jupyter merlin
 RUN sudo /home/opam/.local/bin/jupyter kernelspec install --name ocaml-jupyter "$(opam config var share)/jupyter"
 ENTRYPOINT []
 WORKDIR /home/opam
+RUN sudo apt-get install plplot-driver-cairo
 COPY ocamlinit .ocamlinit
 COPY download_all.ml download_all.ml
 RUN ./download_all.ml
-RUN git clone https://github.com/owlbarn/owl_jupyter.git
+RUN git clone https://github.com/jonludlam/owl_jupyter.git
 RUN cd owl_jupyter && dune build && dune install
 RUN ./download_all.ml
 COPY start-singleuser.sh /home/opam/.local/bin/
