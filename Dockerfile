@@ -16,5 +16,6 @@ RUN git clone https://github.com/jonludlam/owl_jupyter.git
 RUN cd owl_jupyter && dune build && dune install
 RUN ./download_all.ml
 COPY start-singleuser.sh /home/opam/.local/bin/
+WORKDIR /home/opam
 CMD ["/home/opam/.local/bin/start-singleuser.sh"]
 
