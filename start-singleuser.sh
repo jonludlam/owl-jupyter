@@ -39,4 +39,7 @@ echo NOTEBOOK_ARGS: $NOTEBOOK_ARGS
 echo $@
 env
 
+cd /home/opam/work && rm -rf 2019-20 && git clone https://github.com/ocamllabs/focs-201920-notebooks.git 2019-20
+
+
 /home/opam/.local/bin/jupyterhub-singleuser $NOTEBOOK_ARGS "$@"
