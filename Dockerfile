@@ -1,12 +1,18 @@
 FROM ryanrhymes/owl:debian
 ARG JUPYTERHUB_VERSION=0.9.4
+ENV OPAM_SWITCH_PREFIX='/home/opam/.opam/4.07' \
+    CAML_LD_LIBRARY_PATH='/home/opam/.opam/4.07/lib/stublibs:/home/opam/.opam/4.07/lib/ocaml/stublibs:/home/opam/.opam/4.07/lib/ocaml' \
+  OCAML_TOPLEVEL_PATH='/home/opam/.opam/4.07/lib/toplevel' \
+  MANPATH=':/home/opam/.opam/4.07/man' \
+  PATH='/home/opam/.opam/4.07/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
+
 RUN sudo apt-get update
 RUN sudo apt-get install -y python3-pip
 RUN pip3 install --no-cache jupyterhub==$JUPYTERHUB_VERSION notebook
 RUN pip3 install --no-cache jupyter_contrib_nbextensions
 RUN pip3 install --no-cache RISE
 RUN sudo apt-get -y install debianutils libgmp-dev libzmq3-dev m4 perl pkg-config zlib1g-dev pandoc texlive-xetex
-RUN opam install -y jupyter merlin bos
+RUN opam install -y jupyter merlin bos owl-top
 RUN sudo -E /home/opam/.local/bin/jupyter kernelspec install --name ocaml-jupyter "$(opam config var share)/jupyter"
 ENTRYPOINT []
 WORKDIR /home/opam
