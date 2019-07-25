@@ -22,7 +22,6 @@ COPY download_all.ml download_all.ml
 #RUN ./download_all.ml
 RUN cd /home/opam/opam-repository && git pull origin master
 RUN opam update
-RUN opam pin add owl-ode 0.0.9
 RUN opam install --deps-only owl-top
 RUN git clone https://github.com/owlbarn/owl.git owl-github
 RUN cd owl-github && dune build && dune install
@@ -42,7 +41,9 @@ COPY notebook.json /home/opam/.jupyter/nbconfig/notebook.json
 RUN sudo chown opam /home/opam/.jupyter/nbconfig/notebook.json
 COPY custom.tar.gz /home/opam/.jupyter/
 RUN cd /home/opam/.jupyter && tar xvf custom.tar.gz
-WORKDIR /home/opam/work
+RUN mkdir /home/opam/pkp
+RUN mkdir /home/opam/pkp/work
+WORKDIR /home/opam/pkp
 ENV OCAML_JUPYTER_LOG debug
 CMD ["/home/opam/.local/bin/start-singleuser.sh"]
 
