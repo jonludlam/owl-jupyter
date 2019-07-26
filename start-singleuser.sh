@@ -39,22 +39,6 @@ echo NOTEBOOK_ARGS: $NOTEBOOK_ARGS
 echo $@
 env
 
-
-#cd /home/opam/work && rm -rf 2019-20 && git clone https://github.com/ocamllabs/focs-201920-notebooks.git 2019-20
-cd /home/opam/ && rm -rf libs
-mkdir /home/opam/libs
-cd /home/opam/libs
-git clone https://github.com/owlbarn/owl_ode.git
-cd owl_ode
-git checkout 2d4f176d3539de5b
-cd ..
-git clone https://github.com/tachukao/owl_lbfgs.git
-git clone https://github.com/hennequin-lab/gp.git
-git clone https://github.com/hennequin-lab/juplot.git
-git clone https://github.com/pkp-neuro/pkp-tutorials.git
-dune build && dune install
-cd /home/opam/pkp
-git clone ../libs/pkp-tutorials
-rm -rf pkp-tutorials/.git
+/home/opam/update.sh
 
 /home/opam/.local/bin/jupyterhub-singleuser $NOTEBOOK_ARGS "$@"

@@ -19,14 +19,20 @@ RUN sudo -E /home/opam/.local/bin/jupyter kernelspec install --name ocaml-jupyte
 ENTRYPOINT []
 WORKDIR /home/opam
 COPY ocamlinit .ocamlinit
+COPY update.sh update.sh
 #COPY download_all.ml download_all.ml
 #RUN ./download_all.ml
 RUN opam install --deps-only owl-top
+RUN mkdir libs
+WORKDIR /home/opam/libs
 RUN git clone https://github.com/owlbarn/owl.git owl-github
-RUN cd owl-github && dune build && dune install
 RUN git clone https://github.com/jonludlam/owl_jupyter.git
-
-RUN cd owl_jupyter && dune build && dune install
+RUN git clone https://github.com/owlbarn/owl_ode.git && cd owl_ode && git checkout 2d4f176d3539de5b
+RUN git clone https://github.com/tachukao/owl_lbfgs.git
+RUN git clone https://github.com/hennequin-lab/gp.git
+RUN git clone https://github.com/hennequin-lab/juplot.git
+RUN git clone https://github.com/pkp-neuro/pkp-tutorials.git
+RUN dune build && dune install
 COPY start-singleuser.sh /home/opam/.local/bin/
 RUN git clone https://github.com/Gnuplotting/gnuplot-palettes.git
 COPY gnuplot .gnuplot
