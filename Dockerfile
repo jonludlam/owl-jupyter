@@ -45,6 +45,7 @@ COPY custom.tar.gz /home/opam/.jupyter/
 RUN cd /home/opam/.jupyter && tar xvf custom.tar.gz
 RUN mkdir /home/opam/pkp
 RUN mkdir /home/opam/pkp/work
+RUN rm -rf /home/opam/libs/owl-github
 WORKDIR /home/opam/pkp
 ENV OCAML_JUPYTER_LOG debug
 CMD ["/home/opam/.local/bin/start-singleuser.sh"]
