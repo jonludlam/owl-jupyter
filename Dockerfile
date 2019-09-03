@@ -14,7 +14,7 @@ RUN sudo apt-get install -y python3-pip vim debianutils libgmp-dev libzmq3-dev m
 RUN pip3 install --no-cache jupyterhub==$JUPYTERHUB_VERSION notebook
 RUN pip3 install --no-cache jupyter_contrib_nbextensions
 RUN pip3 install --no-cache RISE
-RUN opam install -y jupyter merlin bos sundialsml ocamlformat lbfgs plplot
+RUN opam install -y jupyter merlin bos ocamlformat
 RUN sudo -E /home/opam/.local/bin/jupyter kernelspec install --name ocaml-jupyter "$(opam config var share)/jupyter"
 ENTRYPOINT []
 WORKDIR /home/opam
@@ -22,20 +22,20 @@ COPY ocamlinit .ocamlinit
 COPY update.sh update.sh
 #COPY download_all.ml download_all.ml
 #RUN ./download_all.ml
-RUN opam install --deps-only owl-top
-RUN mkdir libs
-WORKDIR /home/opam/libs
-RUN git clone https://github.com/owlbarn/owl.git owl-github
-RUN git clone https://github.com/jonludlam/owl_jupyter.git
-RUN git clone https://github.com/owlbarn/owl_ode.git && cd owl_ode && git checkout 2d4f176d3539de5b
-RUN git clone https://github.com/tachukao/owl_lbfgs.git
-RUN git clone https://github.com/hennequin-lab/gp.git
-RUN git clone https://github.com/hennequin-lab/juplot.git
-RUN git clone https://github.com/pkp-neuro/pkp-tutorials.git
-RUN dune build && dune install
+#RUN opam install --deps-only owl-top
+#RUN mkdir libs
+#WORKDIR /home/opam/libs
+#RUN git clone https://github.com/owlbarn/owl.git owl-github
+#RUN git clone https://github.com/jonludlam/owl_jupyter.git
+#RUN git clone https://github.com/owlbarn/owl_ode.git && cd owl_ode && git checkout 2d4f176d3539de5b
+#RUN git clone https://github.com/tachukao/owl_lbfgs.git
+#RUN git clone https://github.com/hennequin-lab/gp.git
+#RUN git clone https://github.com/hennequin-lab/juplot.git
+#RUN git clone https://github.com/pkp-neuro/pkp-tutorials.git
+#RUN dune build && dune install
 COPY start-singleuser.sh /home/opam/.local/bin/
-RUN git clone https://github.com/Gnuplotting/gnuplot-palettes.git
-COPY gnuplot .gnuplot
+#RUN git clone https://github.com/Gnuplotting/gnuplot-palettes.git
+#COPY gnuplot .gnuplot
 RUN /home/opam/.local/bin/jupyter contrib nbextension install --user
 RUN /home/opam/.local/bin/jupyter-nbextension install rise --py --user
 RUN /home/opam/.local/bin/jupyter-nbextension enable rise --py --user
@@ -48,5 +48,9 @@ RUN mkdir /home/opam/pkp/work
 RUN rm -rf /home/opam/libs/owl-github
 WORKDIR /home/opam/pkp
 ENV OCAML_JUPYTER_LOG debug
+RUN pip3 install --no-cache nbgrader
+RUN /home/opam/.local/bin/jupyter nbextension install nbgrader --py --user
+RUN /home/opam/.local/bin/jupyter nbextension enable nbgrader --py --user
+RUN /home/opam/.local/bin/jupyter serverextension enable nbgrader --py --user
 CMD ["/home/opam/.local/bin/start-singleuser.sh"]
 
